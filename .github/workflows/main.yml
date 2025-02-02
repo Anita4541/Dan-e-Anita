@@ -2,18 +2,12 @@ name: Notion Auto Message
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # 意大利时间 06:00（北京时间 13:00）
-    - cron: "0 10 * * *"  # 意大利时间 11:00（北京时间 18:00）
-    - cron: "0 17 * * *"  # 意大利时间 18:00（北京时间 01:00）
-    - cron: "0 23 * * *"  # 意大利时间 00:00（北京时间 07:00）
-  workflow_dispatch:      # 允许手动触发任务
+    - cron: '0 11,13,15,19,23 * * *'  # 米兰时间 12:00、14:00、16:00、20:00、00:00 运行
+  workflow_dispatch:
 
 jobs:
-  - name: Run Notion Bot
-    run: |
-      python notion_bot.py || true
-
-
+  run-notion-bot:
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -27,8 +21,4 @@ jobs:
         run: pip install requests
 
       - name: Run Notion Bot
-        env:
-          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
-          NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
-        run: python notion_bot.py || exit 0
-        timeout-minutes: 15  # 运行超时时间，避免 GitHub Actions 无限卡住
+        run: python notion_bot.py || echo "Ignore exit code"
