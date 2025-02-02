@@ -43,9 +43,6 @@ def send_notion_message():
         print(f"[❌] 失败，状态码：{response.status_code}, 响应：{response.text}")
 
 # **每天自动运行一次**
-while True:
-    send_notion_message()
-    time.sleep(86400)  # 86400秒 = 24小时
-
+send_notion_message()  # 只运行一次就退出
 print("Notion bot message sent successfully.")
 exit(0)  # 确保脚本执行完毕后正确退出
