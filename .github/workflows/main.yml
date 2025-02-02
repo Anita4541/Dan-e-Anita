@@ -22,10 +22,12 @@ jobs:
       - name: Install dependencies
         run: pip install requests
 
-      - name: Run Notion Bot
-        env:
-          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
-          NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
+      - name: Debug Notion Bot
         run: |
-          nohup python notion_bot.py > notion_bot.log 2>&1 &  # 让 Python 进程后台运行，并输出日志
-          echo "✅ Notion Bot 已启动，GitHub Actions 不会卡住！🔥"
+          echo "📌 Debug: 检查 Python 版本"
+          python --version
+          echo "📌 Debug: 检查文件是否存在"
+          ls -lah
+          echo "📌 Debug: 运行 Notion Bot"
+          python notion_bot.py
+          echo "📌 Debug: Python 代码执行完毕！"
