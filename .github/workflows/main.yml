@@ -27,5 +27,5 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
         run: |
-          python notion_bot.py & disown  # 让 Python 进程后台运行，GitHub 不再卡住！
-          echo "Notion Bot is running!"
+          nohup python notion_bot.py > notion_bot.log 2>&1 &  # 让 Python 进程后台运行，并输出日志
+          echo "✅ Notion Bot 已启动，GitHub Actions 不会卡住！🔥"
