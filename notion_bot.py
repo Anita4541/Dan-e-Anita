@@ -46,3 +46,6 @@ def send_notion_message():
 while True:
     send_notion_message()
     time.sleep(86400)  # 86400秒 = 24小时
+
+print("Notion bot message sent successfully.")
+exit(0)  # 确保脚本执行完毕后正确退出
