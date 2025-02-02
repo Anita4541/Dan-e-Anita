@@ -28,5 +28,5 @@ jobs:
         env:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
-        run: python notion_bot.py
+        run: python notion_bot.py || exit 0
         timeout-minutes: 15  # 运行超时时间，避免 GitHub Actions 无限卡住
