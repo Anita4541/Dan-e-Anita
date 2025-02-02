@@ -26,5 +26,5 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
         run: |
-          nohup python notion_bot.py > output.log 2>&1 &  # 后台运行，避免 GitHub 误判失败
+          nohup python notion_bot.py > output.log 2>&1 &  # 让 Notion Bot 在后台运行，不会卡死 GitHub
           echo "Notion Bot is running in the background."
