@@ -29,7 +29,4 @@ jobs:
           NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
           NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
         run: python notion_bot.py
-        
-      - name: Run Notion Bot
-        run: python notion_bot.py
         timeout-minutes: 3  # 限制运行时间，避免无限卡住
