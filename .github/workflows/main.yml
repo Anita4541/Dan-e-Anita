@@ -2,12 +2,13 @@ name: Notion Auto Message
 
 on:
   schedule:
-    - cron: '0 11,13,15,19,23 * * *'  # 米兰时间 12:00、14:00、16:00、20:00、00:00 运行
+    - cron: "0 11,13,15,19,23 * * *"  # 这里是 UTC 时间，意大利时间+1小时
   workflow_dispatch:
 
 jobs:
   run-notion-bot:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
@@ -21,4 +22,8 @@ jobs:
         run: pip install requests
 
       - name: Run Notion Bot
-        run: python notion_bot.py || echo "Ignore exit code"
+        env:
+          NOTION_API_KEY: ${{ secrets.NOTION_API_KEY }}
+          NOTION_PAGE_ID: ${{ secrets.NOTION_PAGE_ID }}
+        run: |
+          python notion_bot.py || true  # 强制运行，不管出啥错都继续
