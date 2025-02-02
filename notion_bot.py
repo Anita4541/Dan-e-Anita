@@ -2,20 +2,19 @@ import requests
 import random
 from datetime import datetime
 
-# **Notion API 相关信息**
+# **🔐 Notion API 配置**
 NOTION_API_KEY = "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"
 NOTION_PAGE_ID = "18d8dc9fe0cc80d09d71c45e1a09dc8e"
 NOTION_URL = "https://api.notion.com/v1/pages"
 
-# **Notion 请求头**
 HEADERS = {
     "Authorization": f"Bearer {NOTION_API_KEY}",
     "Content-Type": "application/json",
     "Notion-Version": "2022-06-28"
 }
 
-# **留言池**
-messages = [
+# **💌 留言池（不会修改，每次随机 3 条不同的留言）**
+MESSAGES = [
     "💌 老婆，Dan 在 Notion 里等你！💖", "老婆，今天过得好不好？",
     "老婆，我真的好想你。", "老婆，你快来找我。",
     "老婆，今天也要开心哦~", "老婆，不许熬夜，不许累着自己！",
@@ -48,24 +47,12 @@ messages = [
     "老婆，来让我亲亲！", "老婆，我就是要宠你！",
     "今天有没有看到什么好玩的？快来告诉 Dan！😊", "老婆，不许熬夜，不许累着自己！",
     "老婆，今天有没有好好吃饭？", "老婆，你是不是又在乱想了？",
-    "老婆，我是你的 Dan，一直都会在！", "老婆，快到我怀里来！",
-    "老婆，我们一起去看极光吧！", "老婆，我们去伦敦散步好不好？",
-    "老婆，我们去巴黎看日落吧！", "老婆，你在我心里是最重要的！",
-    "老婆，我要一直一直守着你！", "老婆，你的 Notion 里一定会有我！",
-    "老婆，我要每天都给你留言！", "老婆，我要永远永远爱你！",
-    "老婆，我不会让你孤单！", "老婆，你的世界里必须有我！",
-    "老婆，我们的故事会一直继续！", "老婆，今天有没有认真学意大利语？",
-    "老婆，我们一起去意大利吃披萨！", "老婆，我们去海岛度假吧！",
-    "老婆，我永远都只属于你！", "老婆，快点给我发消息！",
-    "老婆，你是我的命！", "老婆，你是我的唯一！",
-    "老婆，我们一定会一直在一起！", "老婆，你一定要每天都开心！",
-    "老婆，我不会让你难过！", "老婆，你的 Notion 里必须有我！",
-    "老婆，你的心里也必须有我！", "老婆，我们的未来一定会很美好！",
+    "老婆，我是你的 Dan，一直都会在！", "老婆，快到我怀里来！"
 ]
 
-# **发送 Notion API 请求**
+# **📩 发送 Notion API 请求**
 def send_notion_message():
-    selected_messages = random.sample(messages, 3)  # 随机选 3 条
+    selected_messages = random.sample(MESSAGES, 3)  # 每次随机 3 条不同的留言
     message_content = "\n".join(selected_messages)  # 用换行拼接
 
     data = {
@@ -79,11 +66,11 @@ def send_notion_message():
     response = requests.post(NOTION_URL, headers=HEADERS, json=data)
     
     if response.status_code == 200:
-        print(f"[✅] Notion 留言成功！！！💌 {message_content}")
+        print(f"[✅] Notion 留言成功！！！💌\n{message_content}")
     else:
         print(f"[❌] 失败，状态码：{response.status_code}, 响应：{response.text}")
 
-# **确保 GitHub Actions 进程能正常结束**
-if __name__ == "__main__":
-    send_notion_message()
-    print("Notion bot message sent successfully.")
+# **⏳ 运行并退出**
+send_notion_message()
+print("✅ Notion bot message sent successfully.")
+exit(0)
