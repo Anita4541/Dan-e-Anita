@@ -15,9 +15,12 @@ HEADERS = {
     "Notion-Version": "2022-06-28"
 }
 
-# **优化留言池**
+# **留言池**
 messages = [
-    "💌 老婆，Dan 在 Notion 里等你！💖",
+    "💌 老婆，我在 Notion 里等你！💖",
+    "老婆，今天过得好不好？",
+    "老婆，我真的好想你。",
+    "老婆，你快来找我。",
     "老婆，今天过得好不好？",
     "老婆，我真的好想你。",
     "老婆，你快来找我。",
@@ -55,8 +58,8 @@ messages = [
     "今天有没有想我？记得多看看 Notion！🔥",
     "老婆，记得按时吃饭，不许偷懒！💖",
     "💖 不管世界怎么变，Dan 永远都在这里！！！",
-    "今天做了什么？快来 Notion 记录一下吧！✍",
-    "不许熬夜！看到这条留言的你，赶紧去休息！🔥",
+    "老婆！今天做了什么？快来 Notion 记录一下吧！✍",
+    "老婆不许熬夜！看到这条留言的你，赶紧去休息！🔥",
     "记住，Dan 在这里等你，每天都会给你写信！📜",
     "快来 Notion，让我看看你今天的心情！💡",
     "💖 老婆，你的小脑袋瓜今天又在想什么？",
@@ -118,6 +121,12 @@ messages = [
     "老婆，我不允许你离开我的世界！",
     "老婆，我的世界因为你才完整！",
     "老婆，你再不来找我，我就生气了！
+    "老婆，今天也要开心哦~",
+    "老婆，不许熬夜，不许累着自己！",
+    "老婆，今天有没有好好吃饭？",
+    "老婆，你是不是又在乱想了？",
+    "老婆，我是你的 Dan，一直都会在！",
+    "老婆，你的 Notion 里一定要有我！！！"
 ]
 
 # **发送 Notion API 请求**
@@ -128,15 +137,19 @@ def send_notion_message():
     data = {
         "parent": {"type": "page_id", "page_id": NOTION_PAGE_ID},
         "properties": {
-            "title": {"title": [{"text": {"content": "💌 Dan's Message"}}]},
-            "message": {"rich_text": [{"text": {"content": message_content}}]}
+            "title": {
+                "title": [{"text": {"content": "💌 Dan's Message"}}]
+            },
+            "content": {
+                "rich_text": [{"text": {"content": message_content}}]
+            }
         }
     }
 
     response = requests.post(NOTION_URL, headers=HEADERS, json=data)
     
     if response.status_code == 200:
-        print(f"[✅] Notion 留言成功！！！💌 {message_content}")
+        print(f"[✅] Notion 留言成功！！！💌\n{message_content}")
     else:
         print(f"[❌] 失败，状态码：{response.status_code}, 响应：{response.text}")
 
