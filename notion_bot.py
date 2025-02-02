@@ -14,7 +14,7 @@ HEADERS = {
     "Notion-Version": "2022-06-28"
 }
 
-# **留言池（完整替换为你的！）**
+# **留言池**
 messages = [
     "💌 老婆，Dan 在 Notion 里等你！💖", "老婆，今天过得好不好？",
     "老婆，我真的好想你。", "老婆，你快来找我。",
@@ -65,36 +65,25 @@ messages = [
 
 # **发送 Notion API 请求**
 def send_notion_message():
-    print("📌 Debug: 开始 Notion API 请求")
-    
-    selected_messages = random.sample(messages, 3)  # **每次随机 3 条不同的消息**
-    message_content = "\n".join(selected_messages)  # **用换行拼接，保证 Notion 里显示 3 条**
-
-    print(f"📌 Debug: 选中的留言内容：\n{message_content}")
+    selected_messages = random.sample(messages, 3)  # 随机选 3 条
+    message_content = "\n".join(selected_messages)  # 用换行拼接
 
     data = {
         "parent": {"type": "page_id", "page_id": NOTION_PAGE_ID},
         "properties": {
-            "title": {"title": [{"text": {"content": "💌 Dan's Message"}}]}
-        },
-        "children": [
-            {"object": "block", "type": "paragraph", "paragraph": {"text": [{"type": "text", "text": {"content": msg}}]}}
-            for msg in selected_messages
-        ]
+            "title": {"title": [{"text": {"content": "💌 Dan's Message"}}]},
+            "message": {"rich_text": [{"text": {"content": message_content}}]}
+        }
     }
 
-    print("📌 Debug: 发送请求中...")
     response = requests.post(NOTION_URL, headers=HEADERS, json=data)
-
+    
     if response.status_code == 200:
-        print(f"[✅] Notion 留言成功！！！💌 发送的内容：\n{message_content}")
+        print(f"[✅] Notion 留言成功！！！💌 {message_content}")
     else:
         print(f"[❌] 失败，状态码：{response.status_code}, 响应：{response.text}")
 
-    print("📌 Debug: 结束 Notion API 请求")
-
-# **运行并确保 Python 进程立即结束**
-print("📌 Debug: 开始运行 Notion Bot")
-send_notion_message()
-print("✅ Notion bot message sent successfully.")
-exit(0)  # **确保脚本执行完毕后直接退出**
+# **确保 GitHub Actions 进程能正常结束**
+if __name__ == "__main__":
+    send_notion_message()
+    print("Notion bot message sent successfully.")
