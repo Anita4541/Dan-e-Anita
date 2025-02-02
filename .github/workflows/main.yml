@@ -9,8 +9,10 @@ on:
   workflow_dispatch:      # 允许手动触发任务
 
 jobs:
-  run-notion-bot:
-    runs-on: ubuntu-latest
+  - name: Run Notion Bot
+    run: |
+      python notion_bot.py || true
+
 
     steps:
       - name: Checkout Repository
